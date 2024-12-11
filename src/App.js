@@ -132,7 +132,15 @@ function PaymentPage() {
   const [description, setDescription] = useState("");
   const [involves, setInvolves] = useState([]);
   const [history, setHistory] = useState([]);
+  const [copySuccess, setCopySuccess] = useState("");
   const navigate = useNavigate();
+
+  const handleCopyUrl = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url)
+      .then(() => setCopySuccess("URLがコピーされました!"))
+      .catch((err) => setCopySuccess("コピーに失敗しました"));
+  };
 
   useEffect(() => {
     const fetchGroup = async () => {
@@ -184,11 +192,18 @@ function PaymentPage() {
     }
   };
   
+
   
 
   return (
     <div className="container">
       <h1>{groupData.title}</h1>
+      <div className="url-copy-container">
+        <button onClick={handleCopyUrl}>URLをコピーして共有</button>
+        {copySuccess && <span>{copySuccess}</span>} {/* コピー結果の表示 */}
+      </div>
+      
+
       <h2>立替え登録</h2>
       <form onSubmit={handlePaymentSubmit} className="section">
         <div className="form-group">
@@ -259,7 +274,16 @@ function SettlementPage() {
   const [weights, setWeights] = useState({});
   const [balances, setBalances] = useState({});
   const [transactions, setTransactions] = useState([]);
+  const [copySuccess, setCopySuccess] = useState("");
   const navigate = useNavigate();
+
+  const handleCopyUrl = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url)
+      .then(() => setCopySuccess("URLがコピーされました!"))
+      .catch((err) => setCopySuccess("コピーに失敗しました"));
+  };
+
 
   useEffect(() => {
     const fetchGroupData = async () => {
@@ -361,6 +385,10 @@ function SettlementPage() {
   return (
     <div className="container">
       <h1>{title}</h1>
+      <div className="url-copy-container">
+        <button onClick={handleCopyUrl}>URLをコピーして共有</button>
+        {copySuccess && <span>{copySuccess}</span>} {/* コピー結果の表示 */}
+      </div>
       <h2>清算方法</h2>
       {transactions.length === 0 ? (
         <p>清算の必要はありません。</p>
